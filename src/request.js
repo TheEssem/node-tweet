@@ -2,7 +2,7 @@ const https = require("https");
 const utils = require("./utils");
 
 module.exports = async (parameters, path, auth, method, endpoint = "api.twitter.com") => {
-  const oauth = utils.oauth(auth.consumerKey, auth.consumerSecret, auth.accessToken, auth.accessSecret, parameters, path);
+  const oauth = utils.oauth(auth.consumerKey, auth.consumerSecret, auth.accessToken, auth.accessSecret, parameters, path, method);
   return new Promise((resolve, reject) => {
     const req = https.request({
       hostname: endpoint,
