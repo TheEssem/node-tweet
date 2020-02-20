@@ -1,6 +1,6 @@
 {
   "name": "node-tweet",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Twitter API wrapper for Node",
   "main": "index.js",
   "scripts": {
