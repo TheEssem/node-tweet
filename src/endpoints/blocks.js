@@ -1,4 +1,3 @@
-const utils = require("../utils");
 const request = require("../request");
 
 class Blocks {
@@ -8,23 +7,13 @@ class Blocks {
 
   async ids(settings) {
     if (!settings) settings = {};
-    const parameters = ["stringify_ids=true"];
-    const inputParameters = Object.keys(settings);
-    for (const p of inputParameters) {
-      parameters.push(`${utils.percentEncode(p)}=${utils.percentEncode(settings[p])}`);
-    }
-    const response = await request(parameters, "/1.1/blocks/ids.json", this.auth, "GET");
+    const response = await request(["stringify_ids=true"], "/1.1/blocks/ids.json", this.auth, "GET", settings);
     return response;
   }
 
   async list(settings) {
     if (!settings) settings = {};
-    const parameters = [];
-    const inputParameters = Object.keys(settings);
-    for (const p of inputParameters) {
-      parameters.push(`${utils.percentEncode(p)}=${utils.percentEncode(settings[p])}`);
-    }
-    const response = await request(parameters, "/1.1/blocks/list.json", this.auth, "GET");
+    const response = await request([], "/1.1/blocks/list.json", this.auth, "GET", settings);
     return response;
   }
 }

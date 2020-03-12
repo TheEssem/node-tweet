@@ -1,5 +1,6 @@
 const utils = require("../utils");
 const request = require("../request");
+const stream = require("../streaming/stream");
 
 class Statuses {
   constructor(config) {
@@ -13,13 +14,7 @@ class Statuses {
       content = settings.status;
     }
     if (!settings) settings = {};
-
-    const parameters = [`status=${utils.percentEncode(content)}`];
-    const inputParameters = Object.keys(settings);
-    for (const p of inputParameters) {
-      parameters.push(`${utils.percentEncode(p)}=${utils.percentEncode(settings[p])}`);
-    }
-    const response = await request(parameters, "/1.1/statuses/update.json", this.auth, "POST");
+    const response = await request([`status=${utils.percentEncode(content)}`], "/1.1/statuses/update.json", this.auth, "POST", settings);
     return response;
   }
 
@@ -30,14 +25,19 @@ class Statuses {
       id = settings.id;
     }
     if (!settings) settings = {};
-
-    const parameters = [`id=${utils.percentEncode(id)}`];
-    const inputParameters = Object.keys(settings);
-    for (const p of inputParameters) {
-      parameters.push(`${utils.percentEncode(p)}=${utils.percentEncode(settings[p])}`);
-    }
-    const response = await request(parameters, "/1.1/statuses/show.json", this.auth, "GET");
+    const response = await request([`id=${utils.percentEncode(id)}`], "/1.1/statuses/show.json", this.auth, "GET", settings);
     return response;
+  }
+
+  async filter(track, settings) {
+    if (typeof track !== "string" && typeof track !== "object") throw new TypeError(`Search query must be of type string or object, got ${typeof track}`);
+    if (typeof track === "object") {
+      settings = track;
+      track = settings.track;
+    }
+    if (!settings) settings = {};
+    const event = stream([], "/1.1/statuses/filter.json", this.auth, "POST", settings);
+    return event;
   }
 }
 
