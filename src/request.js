@@ -27,7 +27,11 @@ module.exports = (parameters, path, auth, method, settings, endpoint = "api.twit
       });
       res.on("end", () => {
         const parsedData = JSON.parse(data);
-        resolve(parsedData);
+        if (parsedData.errors) {
+          reject(new Error(parsedData.errors[0].message));
+        } else {
+          resolve(parsedData);
+        }
       });
     });
     req.on("error", (e) => {

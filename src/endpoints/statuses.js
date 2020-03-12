@@ -29,14 +29,14 @@ class Statuses {
     return response;
   }
 
-  async filter(track, settings) {
+  filter(track, settings) {
     if (typeof track !== "string" && typeof track !== "object") throw new TypeError(`Search query must be of type string or object, got ${typeof track}`);
     if (typeof track === "object") {
       settings = track;
       track = settings.track;
     }
     if (!settings) settings = {};
-    const event = stream([], "/1.1/statuses/filter.json", this.auth, "POST", settings);
+    const event = stream(track ? [`track=${utils.percentEncode(track)}`] : [], "/1.1/statuses/filter.json", this.auth, "POST", settings);
     return event;
   }
 }

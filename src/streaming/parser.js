@@ -31,9 +31,9 @@ class Parser extends EventEmitter {
     let index, json;
 
     // We have END?
-    while ((index = this.buffer.indexOf(Parser.END)) > -1) {
+    while ((index = this.buffer.indexOf(this.END)) > -1) {
       json = this.buffer.slice(0, index);
-      this.buffer = this.buffer.slice(index + Parser.END_LENGTH);
+      this.buffer = this.buffer.slice(index + this.END_LENGTH);
       if (json.length > 0) {
         try {
           json = JSON.parse(json);

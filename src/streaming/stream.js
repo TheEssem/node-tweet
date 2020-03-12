@@ -7,7 +7,7 @@ module.exports = (parameters, path, auth, method, settings, endpoint = "stream.t
   for (const p of inputParameters) {
     parameters.push(`${utils.percentEncode(p)}=${utils.percentEncode(settings[p])}`);
   }
-  const oauth = utils.oauth(auth.consumerKey, auth.consumerSecret, auth.accessToken, auth.accessSecret, parameters, path, method);
+  const oauth = utils.oauth(auth.consumerKey, auth.consumerSecret, auth.accessToken, auth.accessSecret, parameters, path, method, endpoint);
   const event = new Parser();
   const req = https.request({
     hostname: endpoint,
@@ -15,7 +15,7 @@ module.exports = (parameters, path, auth, method, settings, endpoint = "stream.t
     method: method.toUpperCase(),
     headers: {
       "Accept": "*/*",
-      "Connection": "close",
+      "Connection": "keep-alive",
       "Authorization": oauth.header,
       "User-Agent": "node-tweet",
       "Content-Type": "application/x-www-form-urlencoded"
@@ -53,6 +53,5 @@ module.exports = (parameters, path, auth, method, settings, endpoint = "stream.t
     event.emit("error", e);
   });
   req.end();
-
   return event;
 };
