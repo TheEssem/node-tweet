@@ -1,4 +1,4 @@
-const request = require("../request");
+import request from "../request.js";
 
 class Blocks {
   constructor(config) {
@@ -18,4 +18,4 @@ class Blocks {
   }
 }
 
-module.exports = Blocks;
+export default Blocks;

@@ -11,7 +11,7 @@
 //   p.receive(data)
 //   ...
 
-const { EventEmitter } = require("events");
+import { EventEmitter } from "events";
 
 class Parser extends EventEmitter {
   constructor() {
@@ -68,4 +68,4 @@ class Parser extends EventEmitter {
   }
 }
 
-module.exports = Parser;
+export default Parser;

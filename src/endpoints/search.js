@@ -1,5 +1,5 @@
-const request = require("../request");
-const utils = require("../utils");
+import request from "../request.js";
+import * as utils from "../utils.js";
 
 class Search {
   constructor(config) {
@@ -18,4 +18,4 @@ class Search {
   }
 }
 
-module.exports = Search;
+export default Search;
