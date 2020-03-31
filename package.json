@@ -3,6 +3,8 @@
   "version": "0.1.2",
   "description": "Twitter API wrapper for Node",
   "main": "index.js",
+  "module": "index.js",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/TheEssem/node-tweet.git"
