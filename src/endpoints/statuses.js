@@ -1,6 +1,6 @@
-const utils = require("../utils");
-const request = require("../request");
-const stream = require("../streaming/stream");
+import * as utils from "../utils.js";
+import request from "../request.js";
+import stream from "../streaming/stream.js";
 
 class Statuses {
   constructor(config) {
@@ -41,4 +41,4 @@ class Statuses {
   }
 }
 
-module.exports = Statuses;
+export default Statuses;

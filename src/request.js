@@ -1,14 +1,14 @@
-const https = require("https");
-const utils = require("./utils");
+import {request} from "https";
+import * as utils from "./utils.js";
 
-module.exports = (parameters, path, auth, method, settings, endpoint = "api.twitter.com") => {
+export default (parameters, path, auth, method, settings, endpoint = "api.twitter.com") => {
   const inputParameters = Object.keys(settings);
   for (const p of inputParameters) {
     parameters.push(`${utils.percentEncode(p)}=${utils.percentEncode(settings[p])}`);
   }
   const oauth = utils.oauth(auth.consumerKey, auth.consumerSecret, auth.accessToken, auth.accessSecret, parameters, path, method);
   return new Promise((resolve, reject) => {
-    const req = https.request({
+    const req = request({
       hostname: endpoint,
       path: `${path}?${oauth.parameters}`,
       method: method.toUpperCase(),
