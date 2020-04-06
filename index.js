@@ -1,6 +1,6 @@
-import Blocks from "./src/endpoints/blocks.js";
-import Statuses from "./src/endpoints/statuses.js";
-import Search from "./src/endpoints/search.js";
+const Blocks = require("./src/endpoints/blocks");
+const Statuses = require("./src/endpoints/statuses");
+const Search = require("./src/endpoints/search");
 
 class Twitter {
   constructor(config) {
@@ -20,4 +20,4 @@ class Twitter {
   }
 }
 
-export default Twitter;
+module.exports = Twitter;
