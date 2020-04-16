@@ -16,8 +16,6 @@ $ yarn install node-tweet
 ## Usage
 ```js
 const Twitter = require("node-tweet");
-// or
-import Twitter from "node-tweet";
 
 const client = new Twitter({
   consumerKey: "<PUT CONSUMER KEY HERE>",
