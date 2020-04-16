@@ -9,6 +9,13 @@ module.exports = (parameters, path, auth, method, settings, endpoint = "stream.t
   }
   const oauth = utils.oauth(auth.consumerKey, auth.consumerSecret, auth.accessToken, auth.accessSecret, parameters, path, method, endpoint);
   const event = new Parser();
+
+  startConnection(event, endpoint, path, oauth, method, auth, parameters);
+
+  return event;
+};
+
+function startConnection(event, endpoint, path, oauth, method, auth, parameters) {
   const req = https.request({
     hostname: endpoint,
     path: `${path}?${oauth.parameters}`,
@@ -20,7 +27,8 @@ module.exports = (parameters, path, auth, method, settings, endpoint = "stream.t
       "User-Agent": "node-tweet",
       "Content-Type": "application/x-www-form-urlencoded"
     }
-  }, res => {
+  });
+  req.once("response", res => {
     res.setEncoding("utf8");
     if (res.statusCode !== 200) {
       event.emit("error", new Error(`Got a status code of ${res.statusCode}`));
@@ -36,11 +44,17 @@ module.exports = (parameters, path, auth, method, settings, endpoint = "stream.t
       event.emit("error", e);
     });
 
+    res.on("close", () => {
+      setTimeout(() => {
+        const newOauth = utils.oauth(auth.consumerKey, auth.consumerSecret, auth.accessToken, auth.accessSecret, parameters, path, method, endpoint);
+        startConnection(event, endpoint, path, newOauth, method, auth, parameters);
+      }, 60000);
+    });
+
     res.on("end", () => {
       event.emit("end", res);
     });
   });
-
   event.destroy = function() {
     if (typeof req.abort === "function") {
       req.abort();
@@ -53,5 +67,5 @@ module.exports = (parameters, path, auth, method, settings, endpoint = "stream.t
     event.emit("error", e);
   });
   req.end();
-  return event;
-};
+  return req;
+}
