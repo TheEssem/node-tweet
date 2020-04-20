@@ -50,7 +50,6 @@ client.blocks.list();
 node-tweet is still in the early stages of development, so here are some things that need to be implemented:
 
 + Finish every REST endpoint (starting with /statuses/*)
-+ Implement the streaming API
 + Add other types of authentication
 + Add media upload
 + Improve documentation
